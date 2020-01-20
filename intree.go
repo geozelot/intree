@@ -51,41 +51,43 @@ func (inTree *INTree) newNode(bounds *Bounds) *tNode {
 
 }
 
-func (inTree *INTree) insertNode(rightNode *tNode, bounds *Bounds) *tNode {
+func (inTree *INTree) insertNode(currentNode *tNode, bounds *Bounds) *tNode {
 
-	if (rightNode == nil) {
+	if (currentNode == nil) {
 	  return inTree.newNode(bounds)
 	}
 
-	if (rightNode.bounds.Lower == bounds.Lower && rightNode.bounds.Upper == bounds.Upper) {
+	if (currentNode.bounds.Lower == bounds.Lower && currentNode.bounds.Upper == bounds.Upper) {
 
-		rightNode.indices = append(rightNode.indices, inTree.index)
+		currentNode.indices = append(currentNode.indices, inTree.index)
 
 		inTree.index++
 
-		return rightNode
+		return currentNode
 
 	}
 
-	low := rightNode.bounds.Lower
+	currentNode.indices = append(currentNode.indices, inTree.index)
+
+	low := currentNode.bounds.Lower
 
 	if (bounds.Lower < low) {
 
-	  rightNode.left = inTree.insertNode(rightNode.left, bounds)
+	  currentNode.left = inTree.insertNode(currentNode.left, bounds)
 
 	} else {
 
-	  rightNode.right = inTree.insertNode(rightNode.right, bounds)
+	  currentNode.right = inTree.insertNode(currentNode.right, bounds)
 
 	}
 
-	if (rightNode.max < bounds.Upper) {
+	if (currentNode.max < bounds.Upper) {
 
-	  rightNode.max = bounds.Upper
+	  currentNode.max = bounds.Upper
 
 	}
 
-	return rightNode
+	return currentNode
 
 }
 
@@ -97,12 +99,12 @@ func (inTree *INTree) includesValue(node *tNode, value int) []int {
 	}
 
 	if (node.bounds.Lower <= value && node.bounds.Upper >= value) {
-
+/*
 		indices := node.indices
 		indices = append(indices, inTree.getChildNodeIndices(node.left)...)
 		indices = append(indices, inTree.getChildNodeIndices(node.right)...)
-
-	  return indices
+*/
+	  return node.indices
 
 	}
 
@@ -127,7 +129,7 @@ func (inTree *INTree) inOrder(node *tNode) {
   inTree.inOrder(node.right)
 
 }
-
+/*
 func (inTree *INTree) getChildNodeIndices(node *tNode) []int {
 
 	if (node == nil) {
@@ -141,7 +143,7 @@ func (inTree *INTree) getChildNodeIndices(node *tNode) []int {
 	return indices
 
 }
-
+*/
 func NewINTree() *INTree {
 
 	tree := INTree {
