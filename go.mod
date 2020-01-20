@@ -1,3 +1,3 @@
-module github.com/google/btree
+module github.com/geozelot/intree
 
-go 1.12
+go 1.13
