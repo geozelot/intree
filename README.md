@@ -1,9 +1,11 @@
 # INTree
 ## Fast static Interval Tree for Go
 
-Static, flat Interval Tree implementation for reverse range searches (what intervals include a given value).
+Static, flat Interval Tree implementation for reverse range searches (what intervals include a given value). The tree is realized using Go Slices only; memory usage is low, performance extremely high!
 
-The tree structure is realized using Go Slices only; memory usage is low, performance extremely high!
+___
+
+### Behaviour
 
 INTree will build the tree once (static; no updates after creation), and returns indices to the initial Slice of Bounds!
 
