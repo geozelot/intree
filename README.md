@@ -7,7 +7,8 @@ ___
 
 ### Behaviour:
 
-INTree will build the tree once (**static; no updates after creation**), and returns indices to the initial Slice of Bounds!
+* INTree will build the tree once (**static; no updates after creation**)
+* INTree returns indices to the initial Slice of Bounds!
 
 Currently the only supported query is to find all bounds for a simple value.
 
