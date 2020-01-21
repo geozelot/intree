@@ -10,11 +10,11 @@ ___
 * INTree will build the tree once (**static; no updates after creation**)
 * INTree returns indices to the initial `[]Bounds`!
 
-Currently the only supported query is to find all bounds for a simple value.
-
 ___
 
 ### Usage:
+
+Currently the only supported query is to find all bounds for a simple value.
 
 ```go
 // create dummy bounds
