@@ -1,13 +1,13 @@
 # INTree
 ## Fast static Interval Tree for Go
 
-Static, flat Interval Tree implementation for reverse range searches (what intervals include a given value). The tree is realized using Go Slices only; memory usage is low, performance extremely high!
+Static, flat Interval Tree implementation for reverse range searches (**which intervals include a given value**). The tree is realized using Go Slices only; **memory usage is low, performance extremely high**!
 
 ___
 
 ### Behaviour
 
-INTree will build the tree once (static; no updates after creation), and returns indices to the initial Slice of Bounds!
+INTree will build the tree once (**static; no updates after creation**), and returns indices to the initial Slice of Bounds!
 
 Currently the only supported query is to find all bounds for a simple value.
 
@@ -37,4 +37,4 @@ for idx := range tree.Includes(42) {
 ```
 ____
 
-Inspired by this great [KDTree implementation](https://github.com/mourner/kdbush) for JavaScript, and adapted from this excellent [Go port](https://github.com/MadAppGang/kdbush).
+##### Inspired by this great [KDTree implementation](https://github.com/mourner/kdbush) for JavaScript, and adapted from this excellent [Go port](https://github.com/MadAppGang/kdbush).
