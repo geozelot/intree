@@ -5,7 +5,7 @@ Static, flat Interval Tree implementation for reverse range searches (**which in
 
 ___
 
-### Behaviour
+### Behaviour:
 
 INTree will build the tree once (**static; no updates after creation**), and returns indices to the initial Slice of Bounds!
 
