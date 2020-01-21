@@ -1,176 +1,174 @@
 package intree
 
 import (
-
-	"fmt"
-
+	"math"
+	"math/rand"
 )
+
+
+type GenericBounds interface {
+
+  Limits() (float64, float64)
+
+}
 
 
 type Bounds struct {
 
-   Lower, Upper int
+  Upper, Lower float64
 
 }
 
-type tNode struct {
+  func (bounds *Bounds) Limits() (float64, float64) {
 
-	indices				[]int
-  bounds				*Bounds
-  max						int
-  left, right		*tNode
+    return bounds.Upper, bounds.Lower
 
-}
+  }
+
 
 type INTree struct {
-	
-	root		*tNode
-	index		int
+
+  nodeSize int
+
+  idxs     []int
+  lmts     []float64
 
 }
 
+  func (inT *INTree) buildIndex(bounds []GenericBounds, nodeSize int) {
+    
+    inT.nodeSize = nodeSize
 
-func (inTree *INTree) newNode(bounds *Bounds) *tNode {
+    inT.idxs = make([]int, len(bounds))
+    inT.lmts = make([]float64, 2*len(bounds))
 
-	node := &tNode {
+    for i, v := range bounds {
 
-		indices:	[]int{inTree.index},
-		bounds:	&Bounds {
-			Lower:	bounds.Lower,
-			Upper:	bounds.Upper,
-		},
-		max:		bounds.Upper,
-		left:		nil,
-		right:	nil,
+      inT.idxs[i] = i
+      u, l := v.Limits()
 
-	}
+      inT.lmts[i*2] = l
+      inT.lmts[i*2+1] = u
 
-	inTree.index++
+    }
 
-	return node
+    sort(inT.lmts, inT.idxs, inT.nodeSize)
 
-}
-
-func (inTree *INTree) insertNode(currentNode *tNode, bounds *Bounds) *tNode {
-
-	if (currentNode == nil) {
-	  return inTree.newNode(bounds)
-	}
-
-	if (currentNode.bounds.Lower == bounds.Lower && currentNode.bounds.Upper == bounds.Upper) {
-
-		currentNode.indices = append(currentNode.indices, inTree.index)
-
-		inTree.index++
-
-		return currentNode
-
-	}
-
-	currentNode.indices = append(currentNode.indices, inTree.index)
-
-	low := currentNode.bounds.Lower
-
-	if (bounds.Lower < low) {
-
-	  currentNode.left = inTree.insertNode(currentNode.left, bounds)
-
-	} else {
-
-	  currentNode.right = inTree.insertNode(currentNode.right, bounds)
-
-	}
-
-	if (currentNode.max < bounds.Upper) {
-
-	  currentNode.max = bounds.Upper
-
-	}
-
-	return currentNode
-
-}
-
-func (inTree *INTree) includesValue(node *tNode, value int) []int {
-
-	if (node == nil) {
-		var indices []int
-	  return indices
-	}
-
-	if (node.bounds.Lower <= value && node.bounds.Upper >= value) {
-/*
-		indices := node.indices
-		indices = append(indices, inTree.getChildNodeIndices(node.left)...)
-		indices = append(indices, inTree.getChildNodeIndices(node.right)...)
-*/
-	  return node.indices
-
-	}
-
-	if (node.left != nil && node.left.max >= value) {
-	  return inTree.includesValue(node.left, value)
-	}
-
-	return inTree.includesValue(node.right, value)
-
-}
-
-func (inTree *INTree) inOrder(node *tNode) {
-
-	if (node == nil) {
-  	return
   }
+
+  func (inT *INTree) Includes(val float64) []int {
+
+    stack  := []int{0, len(inT.idxs) - 1}
+    result := []int{}
+
+    var u, l float64
+
+    for len(stack) > 0 {
+
+      right:= stack[len(stack)-1]
+      stack = stack[:len(stack)-1]
+      left := stack[len(stack)-1]
+      stack = stack[:len(stack)-1]
+
+      if right-left <= inT.nodeSize {
+
+        for i := left; i <= right; i++ {
+
+          l = inT.lmts[2*i]
+          u = inT.lmts[2*i+1]
+
+          if u >= val && l <= val {
+
+            result = append(result, inT.idxs[i])
+
+          }
+
+        }
+
+        continue
+      
+      }
+
+      m := int(math.Floor(float64(left + right) / 2.0))
+
+      l = inT.lmts[2*m]
+      u = inT.lmts[2*m+1]
+
+      if u >= val && l <= val {
+
+        result = append(result, inT.idxs[m])
+
+      }
+
+      if (val <= u) {
+
+        stack = append(stack, left)
+        stack = append(stack, m - 1)
+
+      } else {
+
+        stack = append(stack, m + 1)
+        stack = append(stack, right)
+
+      }
+
+    }
+
+    return result
+    
+  }
+
+
+func sort(lmts []float64, idxs []int, nodeSize int) {
+
+  if len(lmts) < 2 { return }
+    
+  left, right := 1, len(lmts) - 1
+
+  if (right - left) <= nodeSize { return }
+    
+  pivot := rand.Int() % len(lmts)
+
+  if pivot % 2 == 0 { pivot++ }
+    
+  lmts[pivot], lmts[pivot-1], lmts[right], lmts[right-1] = lmts[right], lmts[right-1], lmts[pivot], lmts[pivot-1]
+  idxs[(pivot-1)/2], idxs[(right-1)/2] = idxs[(right-1)/2], idxs[(pivot-1)/2]
+
+  for i := 1; i < len(lmts); i += 2  {
+
+      if lmts[i] < lmts[right] {
+
+        lmts[left], lmts[left-1], lmts[i], lmts[i-1] = lmts[i], lmts[i-1], lmts[left], lmts[left-1]
+        idxs[(left-1)/2], idxs[(i-1)/2] = idxs[(i-1)/2], idxs[(left-1)/2]
+        
+        left += 2
+      
+      }
   
-  inTree.inOrder(node.left)
+  }
 
-  fmt.Println(node.bounds, node.max, node.indices)
-
-  inTree.inOrder(node.right)
-
-}
-/*
-func (inTree *INTree) getChildNodeIndices(node *tNode) []int {
-
-	if (node == nil) {
-		return make([]int, 0)
-	}
-	
-	indices := node.indices
-	indices = append(indices, inTree.getChildNodeIndices(node.left)...)
-	indices = append(indices, inTree.getChildNodeIndices(node.right)...)
-
-	return indices
+  lmts[left], lmts[left-1], lmts[right], lmts[right-1] = lmts[right], lmts[right-1], lmts[left], lmts[left-1]
+  idxs[(left-1)/2], idxs[(right-1)/2] = idxs[(right-1)/2], idxs[(left-1)/2]
+    
+  sort(lmts[:left-1], idxs[:(left-1)/2], nodeSize)
+  sort(lmts[left+1:], idxs[(((left-1)/2)+1):], nodeSize)
+    
+  return
 
 }
-*/
-func NewINTree() *INTree {
 
-	tree := INTree {
 
-		root: 	nil,
-		index: 	0,
+func NewINTree(bounds []GenericBounds, nodeSize ...int) *INTree {
 
+	nSize := nodeSize[0]
+
+	if nSize == 0 {
+		nSize = 64
 	}
 
-	return &tree
+  b := INTree{}
+  b.buildIndex(bounds, nSize)
 
-}
-
-func (inTree *INTree) InOrder() {
-
-	inTree.inOrder(inTree.root)
-
-}
-
-func (inTree *INTree) Includes(value int) []int {
-
-	return inTree.includesValue(inTree.root, value)
-
-}
-
-func (inTree *INTree) Insert(bounds *Bounds) {
-
-	inTree.root = inTree.insertNode(inTree.root, bounds)
+  return &b
 
 }
