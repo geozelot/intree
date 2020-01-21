@@ -6,22 +6,22 @@ import (
 )
 
 
-type GenericBounds interface {
+type Bounds interface {
 
   Limits() (float64, float64)
 
 }
 
 
-type Bounds struct {
+type SimpleBounds struct {
 
   Upper, Lower float64
 
 }
 
-  func (bounds *Bounds) Limits() (float64, float64) {
+  func (sb *SimpleBounds) Limits() (float64, float64) {
 
-    return bounds.Upper, bounds.Lower
+    return sb.Upper, sb.Lower
 
   }
 
@@ -35,7 +35,7 @@ type INTree struct {
 
 }
 
-  func (inT *INTree) buildIndex(bounds []GenericBounds, nodeSize int) {
+  func (inT *INTree) buildIndex(bounds []Bounds, nodeSize int) {
     
     inT.nodeSize = nodeSize
 
@@ -158,7 +158,7 @@ func sort(lmts []float64, idxs []int, nodeSize int) {
 }
 
 
-func NewINTree(bounds []GenericBounds, nodeSize ...int) *INTree {
+func NewINTree(bounds []Bounds, nodeSize ...int) *INTree {
 
 	nSize := nodeSize[0]
 
