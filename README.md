@@ -8,7 +8,7 @@ ___
 ### Behaviour:
 
 * INTree will build the tree once (**static; no updates after creation**)
-* INTree returns indices to the initial Slice of Bounds!
+* INTree returns indices to the initial `[]Bounds`!
 
 Currently the only supported query is to find all bounds for a simple value.
 
@@ -38,4 +38,4 @@ for idx := range tree.Includes(42) {
 ```
 ____
 
-##### Inspired by this great [KDTree implementation](https://github.com/mourner/kdbush) for JavaScript, and adapted from this excellent [Go port](https://github.com/MadAppGang/kdbush).
+#### Inspired by this great [KDTree implementation](https://github.com/mourner/kdbush) for JavaScript, and adapted from this excellent [Go port](https://github.com/MadAppGang/kdbush).
