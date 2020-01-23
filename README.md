@@ -4,7 +4,7 @@ Static, flat Interval Tree implementation for reverse range searches (**which in
 
 The flat tree structure using Go Slices makes traversal very fast, with almost no memory footprint other than the stored ranges.
 
-
+**Stil testing; handle with care!**
 
 ## Behaviour:
 
