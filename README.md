@@ -25,6 +25,8 @@ import (
 ### Example usage
 
 ```go
+package main
+
 import (
     "github.com/geozelot/intree"
     "fmt"
