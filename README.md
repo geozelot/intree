@@ -1,15 +1,17 @@
-## INTree for Go
+# INTree for Go
 
 Static, flat Interval Tree implementation for reverse range searches (**which intervals include a given value**).
 
 The flat tree structure using Go Slices makes traversal very fast, with almost no memory footprint other than the stored ranges.
 
-### Behaviour:
+
+
+## Behaviour:
 
 * INTree will build the tree once (**static; no updates after creation**)
 * INTree returns indices to the initial `[]Bounds`!
 
-### Usage:
+## Usage:
 
 Currently the only supported query is to find all bounds for a simple value.
 
