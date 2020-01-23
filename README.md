@@ -25,23 +25,34 @@ import (
 ### Example usage
 
 ```go
-// create dummy bounds
-size := 100
-bounds := make([]intree.Bounds, size, size)
-rand.Seed(time.Now().UnixNano())
-for i := 0; i < size; i++ {
-    bounds[i] = &intree.Bounds{ Lower: i + rand.Intn(100), Upper: i + i + rand.Intn(100) }
-}
+import (
+    "github.com/geozelot/intree"
+    "fmt"
+    "math/rand"
+    "time"
+)
 
-// declare type
-var tree *intree.INTree
+func main() {
+ 
+  // create dummy bounds
+  size := 100
+  bounds := make([]intree.Bounds, size, size)
+  rand.Seed(time.Now().UnixNano())
+  for i := 0; i < size; i++ {
+    bounds[i] = &intree.SimpleBounds{ Lower: float64(i + rand.Intn(100)), Upper: float64(i * 2 + rand.Intn(100))
+  }
 
-// initialize new tree
-tree = intree.NewINTree(bounds)
+  // declare type
+  var tree *intree.INTree
 
-// find all nodes (bounds) that include the given value
-for idx := range tree.Including(42) {
-  fmt.Println("Found: ", bounds[idx])
+  // initialize new tree
+  tree = intree.NewINTree(bounds)
+
+  // find all nodes (bounds) that include the given value
+  for idx := range tree.Including(float64(42)) {
+    fmt.Println("Found: ", bounds[idx])
+  }
+
 }
 ```
 ____
