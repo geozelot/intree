@@ -108,7 +108,6 @@ type INTree struct {
       u := inT.lmts[3*cn+1]
       m := inT.lmts[3*ln+2]
 
-
       if l <= val && val <= u {
 
         result = append(result, inT.idxs[cn])
