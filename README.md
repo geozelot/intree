@@ -8,13 +8,12 @@ The flat tree structure using Go Slices makes traversal very fast, with almost n
 
 ## Behaviour:
 
-* INTree will build the tree once (**static; no updates after creation**)!
-* INTree returns indices to the initial `[]Bounds`!
-* INTree does currently not handle duplicate ranges correctly!
+* INTree will build the tree once (**static; no updates after creation**)
+* INTree returns indices to the initial `[]Bounds`
+* INTree does currently not handle duplicate ranges correctly
+* INTree currently supports finding all bounds for a simple float value
 
 ## Usage:
-
-Currently the only supported query is to find all bounds for a simple value.
 
 ### Import
 ```
