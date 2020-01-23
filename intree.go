@@ -1,8 +1,8 @@
 package intree
 
 import (
-	"math"
-	"math/rand"
+  "math"
+  "math/rand"
 )
 
 
@@ -160,11 +160,11 @@ func sort(lmts []float64, idxs []int, nodeSize int) {
 
 func NewINTree(bounds []Bounds, nodeSize ...int) *INTree {
 
-	nSize := nodeSize[0]
+  nSize := nodeSize[0]
 
-	if nSize == 0 {
-		nSize = 64
-	}
+  if nSize == 0 {
+    nSize = 64
+  }
 
   b := INTree{}
   b.buildIndex(bounds, nSize)
