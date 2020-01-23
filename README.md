@@ -38,5 +38,4 @@ for idx := range tree.Including(42) {
 ```
 ____
 
-##### Inspired by this great [KDTree implementation](https://github.com/mourner/kdbush) for JavaScript.
-#### Adapted from this excellent [Go port](https://github.com/MadAppGang/kdbush).
+##### Inspired by this great [KDTree implementation](https://github.com/mourner/kdbush) for JavaScript and adapted from this excellent [Go port](https://github.com/MadAppGang/kdbush).
