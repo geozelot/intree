@@ -10,6 +10,7 @@ The flat tree structure using Go Slices makes traversal very fast, with almost n
 
 * INTree will build the tree once (**static; no updates after creation**)
 * INTree returns indices to the initial `[]Bounds`!
+* INTree does currently not handle duplicate ranges correctly!
 
 ## Usage:
 
