@@ -16,6 +16,15 @@ The flat tree structure using Go Slices makes traversal very fast, with almost n
 
 Currently the only supported query is to find all bounds for a simple value.
 
+### Import
+```
+import (
+    "github.com/geozelot/intree"
+)
+```
+
+### Example usage
+
 ```go
 // create dummy bounds
 size := 100
