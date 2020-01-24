@@ -50,7 +50,7 @@ type SimpleBounds struct {
  *    @property idxs:     indices referencing index positions of the []Bounds array passed in to construct the tree
  *    @property lmts:     { lower limit (lmts[3*i]); upper limit (lmts[3*i+1]); maxmimum value of left/right child nodes (lmts[3*i+2]) }
  *
- *    @method buildIndex: internal tree construction function; called by NewINTree(); calls utility functions sort() and augment() to build node dependencies
+ *    @method buildTree:  internal tree construction function; called by NewINTree(); calls utility functions sort() and augment() to build node dependencies
  *    @method Including:  main public entry point: finds all bounds that include the given value
  */ 
 
@@ -66,7 +66,7 @@ type INTree struct {
    *  @param bounds: Slice of objects implementing Bounds[] interface  
    */
 
-  func (inT *INTree) buildIndex(bounds []Bounds) {
+  func (inT *INTree) buildTree(b ounds []Bounds) {
     
     inT.idxs = make([]int, len(bounds))
     inT.lmts = make([]float64, 3*len(bounds))
@@ -133,8 +133,8 @@ type INTree struct {
 
 
 /*
- *  Main initialization function; creates the tree from passed in Bounds objects by calling method buildIndex
- *
+ *  Main initialization function; creates the tree from passed in Bounds objects by calling method buildTree
+  *
  *    @params bounds: Slice of objects implementing the Bounds interface
  *
  */
@@ -142,7 +142,7 @@ type INTree struct {
 func NewINTree(bounds []Bounds) *INTree {
 
   inT := INTree{}
-  inT.buildIndex(bounds)
+  inT.buildTree(b ounds)
 
   return &inT
 
