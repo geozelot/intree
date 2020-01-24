@@ -51,7 +51,7 @@ func main() {
   tree = intree.NewINTree(bounds)
 
   // find all nodes (bounds) that include the given value
-  for idx := range tree.Including(float64(42)) {
+  for _, idx := range tree.Including(float64(42)) {
     fmt.Println("Found: ", bounds[idx])
   }
 
