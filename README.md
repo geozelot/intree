@@ -4,13 +4,14 @@ Static, flat Interval Tree implementation for reverse range searches (**which in
 
 The flat tree structure using Go Slices makes traversal very fast, with almost no memory footprint other than the stored ranges.
 
-**Stil testing; handle with care!**
+Current implementation is running on recusive traversal again; will replace with heap collecting loop ASAP.
+
+**Stil testing; handle with caution!**
 
 ## Behaviour:
 
 * INTree will build the tree once (**static; no updates after creation**)
 * INTree returns indices to the initial `[]Bounds`
-* INTree does currently not handle duplicate ranges correctly
 * INTree currently supports finding all bounds for a simple float value
 
 ## Usage:

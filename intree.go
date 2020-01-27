@@ -51,6 +51,7 @@ type SimpleBounds struct {
  *    @property lmts:     { lower limit (lmts[3*i]); upper limit (lmts[3*i+1]); maxmimum value of left/right child nodes (lmts[3*i+2]) }
  *
  *    @method buildTree:  internal tree construction function; called by NewINTree(); calls utility functions sort() and augment() to build node dependencies
+ *    @method including:  internal tree traversal function; called by Including() to travere tree and retrieve matches
  *    @method Including:  main public entry point: finds all bounds that include the given value
  */ 
 
