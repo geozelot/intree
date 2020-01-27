@@ -66,7 +66,7 @@ type INTree struct {
    *  @param bounds: Slice of objects implementing Bounds[] interface  
    */
 
-  func (inT *INTree) buildTree(b ounds []Bounds) {
+  func (inT *INTree) buildTree(bounds []Bounds) {
     
     inT.idxs = make([]int, len(bounds))
     inT.lmts = make([]float64, 3*len(bounds))
@@ -82,8 +82,51 @@ type INTree struct {
 
     }
 
-    sort(inT.lmts, inT.idxs)
+    sort(inT.lmts, inT.idxs, 0)
     augment(inT.lmts, inT.idxs)
+
+  }
+
+
+  /*
+   *  @param lb:  left bound of current branch; recursively updated
+   *  @param rb:  right bound of current branch; recursively updated
+   *  @param val: value to search containing bounds for
+   */
+
+  func (inT *INTree) including(lb int, rb int, val float64) []int {
+
+    if lb == rb + 1 { return nil }
+
+    res := []int{}
+
+    cn := int(math.Ceil(float64(lb + rb) / 2.0))
+
+    m := inT.lmts[3*cn+2]
+
+    if val <= m {
+
+      res = append(res, inT.including(lb, cn - 1, val)...)
+
+    }
+
+    l := inT.lmts[3*cn]
+
+    if l <= val {
+
+      res = append(res, inT.including(cn + 1, rb, val)...)
+      
+      u := inT.lmts[3*cn+1]
+
+      if val <= u {
+
+       res = append(res, inT.idxs[cn])
+
+      }
+
+    }
+
+    return res
 
   }
 
@@ -94,39 +137,10 @@ type INTree struct {
 
   func (inT *INTree) Including(val float64) []int {
 
-    result := []int{}
-
     lb := 0
     rb := len(inT.idxs) - 1
 
-    for lb <= rb {
-
-      cn := int(math.Ceil(float64(lb + rb) / 2.0))
-      ln := int(math.Floor(float64(lb + cn) / 2.0))
-
-      l := inT.lmts[3*cn]
-      u := inT.lmts[3*cn+1]
-      m := inT.lmts[3*ln+2]
-
-      if l <= val && val <= u {
-
-        result = append(result, inT.idxs[cn])
-
-      }
-      
-      if (m >= val) {
-
-        rb = cn - 1
-
-        continue
-
-      } 
-
-      lb = cn + 1
-
-    }
-
-    return result
+    return inT.including(lb, rb, val)
   
   }
 
@@ -134,7 +148,7 @@ type INTree struct {
 
 /*
  *  Main initialization function; creates the tree from passed in Bounds objects by calling method buildTree
-  *
+ *
  *    @params bounds: Slice of objects implementing the Bounds interface
  *
  */
@@ -142,52 +156,12 @@ type INTree struct {
 func NewINTree(bounds []Bounds) *INTree {
 
   inT := INTree{}
-  inT.buildTree(b ounds)
+  inT.buildTree(bounds)
 
   return &inT
 
 }
 
-
-
-/*
- *  Utility function to sort tree by lowest limits
- *
- *    @param lmts: Slice partition of { lower, upper, max } values defining the tree nodes
- *    @param idxs: Slice partition of { index } values referencing input collectiob of Bounds objects
- */
-
-func sort(lmts []float64, idxs []int) {
-
-  if len(idxs) < 2 { return }
-    
-  l, r := 0, len(idxs) - 1
-
-  p := rand.Int() % len(idxs)
-
-  idxs[p], idxs[r] = idxs[r], idxs[p]
-  lmts[3*p], lmts[3*p+1], lmts[3*p+2], lmts[3*r], lmts[3*r+1], lmts[3*r+2] = lmts[3*r], lmts[3*r+1], lmts[3*r+2], lmts[3*p], lmts[3*p+1], lmts[3*p+2]
-
-  for i := range idxs  {
-
-      if lmts[3*i] < lmts[3*r] {
-
-        idxs[l], idxs[i] = idxs[i], idxs[l]
-        lmts[3*l], lmts[3*l+1], lmts[3*l+2], lmts[3*i], lmts[3*i+1], lmts[3*i+2] = lmts[3*i], lmts[3*i+1], lmts[3*i+2], lmts[3*l], lmts[3*l+1], lmts[3*l+2]
-        
-        l++
-      
-      }
-  
-  }
-
-  idxs[l], idxs[r] = idxs[r], idxs[l]
-  lmts[3*l], lmts[3*l+1], lmts[3*l+2], lmts[3*r], lmts[3*r+1], lmts[3*r+2] = lmts[3*r], lmts[3*r+1], lmts[3*r+2], lmts[3*l], lmts[3*l+1], lmts[3*l+2]
-    
-  sort(lmts[:3*l], idxs[:l])
-  sort(lmts[3*l+3:], idxs[l+1:])
-    
-}
 
 
 /*
@@ -201,12 +175,64 @@ func augment(lmts []float64, idxs []int) {
 
   if len(idxs) < 1 { return }
 
-  o := len(idxs) - 1
+  max := 0.0
+
+  for idx, _ := range idxs {
+
+    if lmts[3*idx+1] > max {
+
+      max = lmts[3*idx+1]
+    
+    }
+
+  }
+
   r := int(math.Floor(float64(len(idxs)) / 2.0))
 
-  lmts[3*r+2] = lmts[3*o+1]
+  lmts[3*r+2] = max
 
   augment(lmts[:3*r], idxs[:r])
   augment(lmts[3*r+3:], idxs[r+1:])
 
+}
+
+
+
+/*
+ *  Utility function to sort tree by lowest limits
+ *
+ *    @param lmts: Slice partition of { lower, upper, max } values defining the tree nodes
+ *    @param idxs: Slice partition of { index } values referencing input collectiob of Bounds objects
+ */
+
+func sort(lmts []float64, idxs []int, minmax int) {
+
+  if len(idxs) < 2 { return }
+    
+  l, r := 0, len(idxs) - 1
+
+  p := rand.Int() % len(idxs)
+
+  idxs[p], idxs[r] = idxs[r], idxs[p]
+  lmts[3*p], lmts[3*p+1], lmts[3*p+2], lmts[3*r], lmts[3*r+1], lmts[3*r+2] = lmts[3*r], lmts[3*r+1], lmts[3*r+2], lmts[3*p], lmts[3*p+1], lmts[3*p+2]
+
+  for i := range idxs  {
+
+      if lmts[3*i+minmax] < lmts[3*r+minmax] {
+
+        idxs[l], idxs[i] = idxs[i], idxs[l]
+        lmts[3*l], lmts[3*l+1], lmts[3*l+2], lmts[3*i], lmts[3*i+1], lmts[3*i+2] = lmts[3*i], lmts[3*i+1], lmts[3*i+2], lmts[3*l], lmts[3*l+1], lmts[3*l+2]
+        
+        l++
+      
+      }
+  
+  }
+
+  idxs[l], idxs[r] = idxs[r], idxs[l]
+  lmts[3*l], lmts[3*l+1], lmts[3*l+2], lmts[3*r], lmts[3*r+1], lmts[3*r+2] = lmts[3*r], lmts[3*r+1], lmts[3*r+2], lmts[3*l], lmts[3*l+1], lmts[3*l+2]
+    
+  sort(lmts[:3*l], idxs[:l], minmax)
+  sort(lmts[3*l+3:], idxs[l+1:], minmax)
+    
 }
