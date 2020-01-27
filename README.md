@@ -19,7 +19,7 @@ Current implementation is running on recusive traversal again; will replace with
 ### Import
 ```
 import (
-    "github.com/geozelot/intree"
+    "github.com/geozelot/intree-go"
 )
 ```
 
@@ -29,7 +29,7 @@ import (
 package main
 
 import (
-    "github.com/geozelot/intree"
+    "github.com/geozelot/intree-go"
     "fmt"
     "math/rand"
     "time"
