@@ -21,15 +21,15 @@ type Bounds interface {
 
 }
 
+
 /*
  *  Simple struct implicitly implementing Bounds interface;
  *
- *    @property Upper: holds upper limit of bounds
- *    @property Lower: holds lower limit of bounds
+ *    @property Upper:  holds upper limit of bounds
+ *    @property Lower:  holds lower limit of bounds
  *
  *    @method Limits(): returning Upper and Lower properties
  */
-
 
 type SimpleBounds struct {
 
@@ -64,15 +64,15 @@ type INTree struct {
 
 
   /*
-   *  @param bounds: Slice of objects implementing Bounds[] interface  
+   *  @param bnds: Slice of objects implementing Bounds[] interface  
    */
 
-  func (inT *INTree) buildTree(bounds []Bounds) {
+  func (inT *INTree) buildTree(bnds []Bounds) {
     
-    inT.idxs = make([]int, len(bounds))
-    inT.lmts = make([]float64, 3*len(bounds))
+    inT.idxs = make([]int, len(bnds))
+    inT.lmts = make([]float64, 3*len(bnds))
 
-    for i, v := range bounds {
+    for i, v := range bnds {
 
       inT.idxs[i] = i
       l, u := v.Limits()
@@ -83,7 +83,7 @@ type INTree struct {
 
     }
 
-    sort(inT.lmts, inT.idxs, 0)
+    sort(inT.lmts, inT.idxs)
     augment(inT.lmts, inT.idxs)
 
   }
@@ -102,29 +102,17 @@ type INTree struct {
     res := []int{}
 
     cn := int(math.Ceil(float64(lb + rb) / 2.0))
+    m  := inT.lmts[3*cn+2]
 
-    m := inT.lmts[3*cn+2]
-
-    if val <= m {
-
-      res = append(res, inT.including(lb, cn - 1, val)...)
-
-    }
+    if val <= m { res = append(res, inT.including(lb, cn - 1, val)...) }
 
     l := inT.lmts[3*cn]
 
     if l <= val {
-
       res = append(res, inT.including(cn + 1, rb, val)...)
       
       u := inT.lmts[3*cn+1]
-
-      if val <= u {
-
-       res = append(res, inT.idxs[cn])
-
-      }
-
+      if val <= u { res = append(res, inT.idxs[cn]) }
     }
 
     return res
@@ -150,14 +138,14 @@ type INTree struct {
 /*
  *  Main initialization function; creates the tree from passed in Bounds objects by calling method buildTree
  *
- *    @params bounds: Slice of objects implementing the Bounds interface
+ *    @params bnds: Slice of objects implementing the Bounds interface
  *
  */
 
-func NewINTree(bounds []Bounds) *INTree {
+func NewINTree(bnds []Bounds) *INTree {
 
   inT := INTree{}
-  inT.buildTree(bounds)
+  inT.buildTree(bnds)
 
   return &inT
 
@@ -166,10 +154,10 @@ func NewINTree(bounds []Bounds) *INTree {
 
 
 /*
- *  Utility function to augment tree by adding maximum value of all left or right child nodes respectively
+ *  Utility function to augment tree by adding maximum value of all child nodes
  *
  *    @param lmts: Slice partition of (lower, upper, max) values defining the tree nodes
- *    @param idxs: Slice partition of (index) values referencing input collectiob of Bounds objects
+ *    @param idxs: Slice partition of (index) values referencing input collection of Bounds objects
  */
 
 func augment(lmts []float64, idxs []int) {
@@ -180,11 +168,7 @@ func augment(lmts []float64, idxs []int) {
 
   for idx, _ := range idxs {
 
-    if lmts[3*idx+1] > max {
-
-      max = lmts[3*idx+1]
-    
-    }
+    if lmts[3*idx+1] > max { max = lmts[3*idx+1] }
 
   }
 
@@ -203,10 +187,10 @@ func augment(lmts []float64, idxs []int) {
  *  Utility function to sort tree by lowest limits
  *
  *    @param lmts: Slice partition of { lower, upper, max } values defining the tree nodes
- *    @param idxs: Slice partition of { index } values referencing input collectiob of Bounds objects
+ *    @param idxs: Slice partition of { index } values referencing input collection of Bounds objects
  */
 
-func sort(lmts []float64, idxs []int, minmax int) {
+func sort(lmts []float64, idxs []int) {
 
   if len(idxs) < 2 { return }
     
@@ -219,7 +203,7 @@ func sort(lmts []float64, idxs []int, minmax int) {
 
   for i := range idxs  {
 
-      if lmts[3*i+minmax] < lmts[3*r+minmax] {
+      if lmts[3*i] < lmts[3*r] {
 
         idxs[l], idxs[i] = idxs[i], idxs[l]
         lmts[3*l], lmts[3*l+1], lmts[3*l+2], lmts[3*i], lmts[3*i+1], lmts[3*i+2] = lmts[3*i], lmts[3*i+1], lmts[3*i+2], lmts[3*l], lmts[3*l+1], lmts[3*l+2]
@@ -233,7 +217,7 @@ func sort(lmts []float64, idxs []int, minmax int) {
   idxs[l], idxs[r] = idxs[r], idxs[l]
   lmts[3*l], lmts[3*l+1], lmts[3*l+2], lmts[3*r], lmts[3*r+1], lmts[3*r+2] = lmts[3*r], lmts[3*r+1], lmts[3*r+2], lmts[3*l], lmts[3*l+1], lmts[3*l+2]
     
-  sort(lmts[:3*l], idxs[:l], minmax)
-  sort(lmts[3*l+3:], idxs[l+1:], minmax)
+  sort(lmts[:3*l], idxs[:l])
+  sort(lmts[3*l+3:], idxs[l+1:])
     
 }
