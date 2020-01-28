@@ -1,23 +1,25 @@
 # INTree for Go
 
-Static, flat Interval Tree implementation for reverse range searches (**which intervals include a given value**).
+Static, flat **IN**terval **Tree** implementation for reverse range searches (**which intervals include a given value**).
 
-The flat tree structure using Go Slices makes traversal very fast, with almost no memory footprint other than the stored ranges.
+The flat tree structure using Slices makes traversal very efficient, very fast, and with almost no memory footprint other than the range limits.
 
-Current implementation is running on recusive traversal again; will replace with heap collecting loop ASAP.
+Further scientific reading about the adapted algorithm and comparisons between different approaches (in C/C++) can be found [here](https://github.com/lh3/cgranges).
+
 
 ## Behaviour:
 
 * INTree will build the tree once (**static; no updates after creation**)
-* INTree returns indices to the initial `[]Bounds`
-* INTree currently supports finding all bounds for a simple float value
+* INTree returns indices to the initial `[]Bounds` array
 
 ## Usage:
+
+INTree currently supports finding all bounds for a simple float value.
 
 ### Import
 ```
 import (
-    "github.com/geozelot/intree-go"
+    "github.com/geozelot/intree"
 )
 ```
 
@@ -27,7 +29,7 @@ import (
 package main
 
 import (
-    "github.com/geozelot/intree-go"
+    "github.com/geozelot/intree"
     "fmt"
     "math/rand"
     "time"
