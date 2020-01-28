@@ -37,6 +37,13 @@ type SimpleBounds struct {
 
 }
 
+
+  /*
+   *  Implementing Bounds interface method
+   *
+   *    @return:  returns lower and upper limit of bounds
+   */
+
   func (sb *SimpleBounds) Limits() (float64, float64) {
 
     return sb.Lower, sb.Upper
@@ -51,7 +58,6 @@ type SimpleBounds struct {
  *    @property lmts:     { lower limit (lmts[3*i]); upper limit (lmts[3*i+1]); maxmimum value of left/right child nodes (lmts[3*i+2]) }
  *
  *    @method buildTree:  internal tree construction function; called by NewINTree(); calls utility functions sort() and augment() to build node dependencies
- *    @method including:  internal tree traversal function; called by Including() to travere tree and retrieve matches
  *    @method Including:  main public entry point: finds all bounds that include the given value
  */ 
 
@@ -64,7 +70,9 @@ type INTree struct {
 
 
   /*
-   *  @param bnds: Slice of objects implementing Bounds[] interface  
+   *  Internal tree construction function
+   *    
+   *    @param bnds: Slice of objects implementing Bounds[] interface
    */
 
   func (inT *INTree) buildTree(bnds []Bounds) {
@@ -90,46 +98,53 @@ type INTree struct {
 
 
   /*
-   *  @param lb:  left bound of current branch; recursively updated
-   *  @param rb:  right bound of current branch; recursively updated
-   *  @param val: value to search containing bounds for
-   */
-
-  func (inT *INTree) including(lb int, rb int, val float64) []int {
-
-    if lb == rb + 1 { return nil }
-
-    res := []int{}
-
-    cn := int(math.Ceil(float64(lb + rb) / 2.0))
-    m  := inT.lmts[3*cn+2]
-
-    if val <= m { res = append(res, inT.including(lb, cn - 1, val)...) }
-
-    l := inT.lmts[3*cn]
-
-    if l <= val {
-      res = append(res, inT.including(cn + 1, rb, val)...)
-      
-      u := inT.lmts[3*cn+1]
-      if val <= u { res = append(res, inT.idxs[cn]) }
-    }
-
-    return res
-
-  }
-
-
-  /*
-   *  @param val: value to search containing bounds for
+   *  Main public entry point for bounds searches
+   *
+   *    @param val: value to search containing bounds for
+   *
+   *    @return:    Slice holding all found array indices referencing the input Bounds[]
    */
 
   func (inT *INTree) Including(val float64) []int {
 
-    lb := 0
-    rb := len(inT.idxs) - 1
+    stk := []int{0, len(inT.idxs) - 1}
+    res := []int{}
 
-    return inT.including(lb, rb, val)
+    for len(stk) > 0 {
+
+      rb  := stk[len(stk)-1]
+      stk  = stk[:len(stk)-1]
+      lb  := stk[len(stk)-1]
+      stk  = stk[:len(stk)-1]
+
+      if lb == rb + 1 { continue }
+
+      cn := int(math.Ceil(float64(lb + rb) / 2.0))
+      nm := inT.lmts[3*cn+2]
+
+      if val <= nm {
+
+        stk = append(stk, lb)
+        stk = append(stk, cn - 1)
+
+      }
+
+      l := inT.lmts[3*cn]
+
+      if l <= val {
+
+        stk = append(stk, cn + 1)
+        stk = append(stk, rb)
+
+        u := inT.lmts[3*cn+1]
+        
+        if val <= u { res = append(res, inT.idxs[cn]) }
+
+      }
+
+    }
+
+    return res
   
   }
 
@@ -140,6 +155,7 @@ type INTree struct {
  *
  *    @params bnds: Slice of objects implementing the Bounds interface
  *
+ *    @return:      INTree object
  */
 
 func NewINTree(bnds []Bounds) *INTree {
@@ -180,7 +196,6 @@ func augment(lmts []float64, idxs []int) {
   augment(lmts[3*r+3:], idxs[r+1:])
 
 }
-
 
 
 /*
