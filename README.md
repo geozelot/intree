@@ -6,8 +6,6 @@ The flat tree structure using Go Slices makes traversal very fast, with almost n
 
 Current implementation is running on recusive traversal again; will replace with heap collecting loop ASAP.
 
-**Stil testing; handle with caution!**
-
 ## Behaviour:
 
 * INTree will build the tree once (**static; no updates after creation**)
@@ -19,7 +17,7 @@ Current implementation is running on recusive traversal again; will replace with
 ### Import
 ```
 import (
-    "github.com/geozelot/intree"
+    "github.com/geozelot/intree-go"
 )
 ```
 
@@ -29,7 +27,7 @@ import (
 package main
 
 import (
-    "github.com/geozelot/intree"
+    "github.com/geozelot/intree-go"
     "fmt"
     "math/rand"
     "time"
