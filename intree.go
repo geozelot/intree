@@ -17,7 +17,7 @@ type SimpleBounds struct {
 	Lower, Upper float64
 }
 
-// Limits implicitly implements Bounds interface for Simplebounds
+// Limits implicitly implements Bounds interface for type SimpleBounds.
 func (sb *SimpleBounds) Limits() (float64, float64) {
 
 	return sb.Lower, sb.Upper
@@ -25,8 +25,8 @@ func (sb *SimpleBounds) Limits() (float64, float64) {
 }
 
 // INTree is the main package object.
-// INTree.idxs holds the array indices of the passed Bounds[] Slice at construction with NewINTree(),
-// INTree.lmts holds the actual limits, and the augmented maximum of all children per node.
+// INTree.idxs holds the array indices of the passed Bounds[] Slice at construction with NewINTree().
+// INTree.lmts holds the actual limits and the maximum of all children per node.
 type INTree struct {
 	idxs []int
 	lmts []float64
@@ -54,8 +54,8 @@ func (inT *INTree) buildTree(bnds []Bounds) {
 
 }
 
-// Including is the main public entry point for bounds searches.
-// It will traverse the tree and return overlaps with the given value.
+// Including is the main entry point for bounds searches.
+// Traverses the tree and returns overlaps with the given value.
 func (inT *INTree) Including(val float64) []int {
 
 	stk := []int{0, len(inT.idxs) - 1}
@@ -104,7 +104,7 @@ func (inT *INTree) Including(val float64) []int {
 }
 
 // NewINTree is the main initialization function.
-// It creates the tree from all passed in Bounds objects by calling buildTree.
+// Creates the tree from all passed in Bounds objects, calling buildTree().
 func NewINTree(bnds []Bounds) *INTree {
 
 	inT := INTree{}
@@ -114,7 +114,7 @@ func NewINTree(bnds []Bounds) *INTree {
 
 }
 
-// augment is a internal utility function to add maximum value of all child nodes to the current node.
+// augment is an internal utility function, adding maximum value of all child nodes to the current node.
 func augment(lmts []float64, idxs []int) {
 
 	if len(idxs) < 1 {
@@ -140,7 +140,7 @@ func augment(lmts []float64, idxs []int) {
 
 }
 
-// sort is a internal utility function to sort tree by lowest limits, using Random Pivot QuickSearch
+// sort is an internal utility function, sorting the tree by lowest limits using Random Pivot QuickSearch
 func sort(lmts []float64, idxs []int) {
 
 	if len(idxs) < 2 {
