@@ -1,7 +1,4 @@
-
-// INTree is a static, flat (augmented) INterval Tree for reverse range searches.
- 
-
+// INTree provides a static, flat (augmented) INterval Tree for reverse range searches.
 package intree
 
 import (
@@ -9,62 +6,33 @@ import (
 	"math/rand"
 )
 
-/*
- *  Main interface expected by NewINTree();
- *
- *    @member Limits(): returns (multiple-value) lower and upper limit of implementing object
- */
 
+// Bounds is the main interface expected by NewINTree();
 type Bounds interface {
 	Limits() (L, U float64)
 }
 
-/*
- *  Simple struct implicitly implementing Bounds interface;
- *
- *    @property Upper:  holds upper limit of bounds
- *    @property Lower:  holds lower limit of bounds
- *
- *    @method Limits(): returning Upper and Lower properties
- */
-
+// SimpleBounds is a simple Struct implicitly implementing the Bounds interface.
 type SimpleBounds struct {
 	Lower, Upper float64
 }
 
-/*
- *  Implementing Bounds interface method
- *
- *    @return:  returns lower and upper limit of bounds
- */
-
+// Limits implicitly implements Bounds interface for Simplebounds
 func (sb *SimpleBounds) Limits() (float64, float64) {
 
 	return sb.Lower, sb.Upper
 
 }
 
-/*
- *  Main INTree object;
- *
- *    @property idxs:     indices referencing index positions of the []Bounds array passed in to construct the tree
- *    @property lmts:     { lower limit (lmts[3*i]); upper limit (lmts[3*i+1]); maxmimum value of left/right child nodes (lmts[3*i+2]) }
- *
- *    @method buildTree:  internal tree construction function; called by NewINTree(); calls utility functions sort() and augment() to build node dependencies
- *    @method Including:  main public entry point: finds all bounds that include the given value
- */
-
+// INTree is the main package object.
+// INTree.idxs holds the array indices of the passed Bounds[] Slice at construction with NewINTree(),
+// INTree.lmts holds the actual limits, and the augmented maximum of all children per node.
 type INTree struct {
 	idxs []int
 	lmts []float64
 }
 
-/*
- *  Internal tree construction function
- *
- *    @param bnds: Slice of objects implementing Bounds[] interface
- */
-
+// buidTree is the internal tree construction function.
 func (inT *INTree) buildTree(bnds []Bounds) {
 
 	inT.idxs = make([]int, len(bnds))
@@ -86,14 +54,8 @@ func (inT *INTree) buildTree(bnds []Bounds) {
 
 }
 
-/*
- *  Main public entry point for bounds searches
- *
- *    @param val: value to search containing bounds for
- *
- *    @return:    Slice holding all found array indices referencing the input Bounds[]
- */
-
+// Including is the main public entry point for bounds searches.
+// It will traverse the tree and return overlaps with the given value.
 func (inT *INTree) Including(val float64) []int {
 
 	stk := []int{0, len(inT.idxs) - 1}
@@ -141,14 +103,8 @@ func (inT *INTree) Including(val float64) []int {
 
 }
 
-/*
- *  Main initialization function; creates the tree from passed in Bounds objects by calling method buildTree
- *
- *    @params bnds: Slice of objects implementing the Bounds interface
- *
- *    @return:      INTree object
- */
-
+// NewINTree is the main initialization function.
+// It creates the tree from all passed in Bounds objects by calling buildTree.
 func NewINTree(bnds []Bounds) *INTree {
 
 	inT := INTree{}
@@ -158,13 +114,7 @@ func NewINTree(bnds []Bounds) *INTree {
 
 }
 
-/*
- *  Utility function to augment tree by adding maximum value of all child nodes
- *
- *    @param lmts: Slice partition of (lower, upper, max) values defining the tree nodes
- *    @param idxs: Slice partition of (index) values referencing input collection of Bounds objects
- */
-
+// augment is a internal utility function to add maximum value of all child nodes to the current node.
 func augment(lmts []float64, idxs []int) {
 
 	if len(idxs) < 1 {
@@ -190,13 +140,7 @@ func augment(lmts []float64, idxs []int) {
 
 }
 
-/*
- *  Utility function to sort tree by lowest limits
- *
- *    @param lmts: Slice partition of { lower, upper, max } values defining the tree nodes
- *    @param idxs: Slice partition of { index } values referencing input collection of Bounds objects
- */
-
+// sort is a internal utility function to sort tree by lowest limits, using Random Pivot QuickSearch
 func sort(lmts []float64, idxs []int) {
 
 	if len(idxs) < 2 {
