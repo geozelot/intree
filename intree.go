@@ -1,6 +1,6 @@
-/*
- * INTree is a static, flat (augmented) INterval Tree for reverse range searches.
- */
+
+// INTree is a static, flat (augmented) INterval Tree for reverse range searches.
+ 
 
 package intree
 
