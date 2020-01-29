@@ -1,3 +1,7 @@
+/*
+ * INTree is a static, flat (augmented) INterval Tree for reverse range searches.
+ */
+
 package intree
 
 import (
@@ -74,7 +78,7 @@ func (inT *INTree) buildTree(bnds []Bounds) {
 		inT.lmts[3*i] = l
 		inT.lmts[3*i+1] = u
 		inT.lmts[3*i+2] = 0
-		
+
 	}
 
 	sort(inT.lmts, inT.idxs)
