@@ -131,7 +131,7 @@ func augment(lmts []float64, idxs []int) {
 
 	}
 
-	r := int(math.Floor(float64(len(idxs)) / 2.0))
+	r := len(idxs)>>1
 
 	lmts[3*r+2] = max
 
