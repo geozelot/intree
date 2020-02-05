@@ -1,6 +1,6 @@
 # INTree for Go
 
-Static, flat **IN**terval **Tree** implementation for reverse range searches (**which intervals include a given value**).
+Static, flat **IN**terval **Tree** implementation for reverse range searches.
 
 The flat tree structure using Slices makes traversal very efficient, very fast, and with almost no memory footprint other than the range limits.
 
