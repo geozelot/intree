@@ -103,8 +103,8 @@ func (inT *INTree) Including(val float64) []int {
 
 }
 
-// NewINTree is the main initialization function.
-// Creates the tree from all passed in Bounds objects, calling buildTree().
+// NewINTree is the main initialization function;
+// creates the tree from the given Slice of Bounds.
 func NewINTree(bnds []Bounds) *INTree {
 
 	inT := INTree{}
