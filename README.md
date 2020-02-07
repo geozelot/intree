@@ -71,14 +71,14 @@ func main() {
 
     fmt.Printf("Match at inputBounds index %2d with range [%.1f, %.1f]\n", matchedIndex, lowerLimit, upperLimit)
 
-    */
+    /*
       Match at inputBounds index 11 with range [4.1, 4.9]
       Match at inputBounds index 10 with range [4.1, 4.9]
       Match at inputBounds index  5 with range [3.0, 6.0]
       Match at inputBounds index  2 with range [4.0, 8.0]
       Match at inputBounds index  0 with range [4.0, 6.0]
       Match at inputBounds index  9 with range [3.2, 7.5]
-    /*
+    */
 
   }
 
