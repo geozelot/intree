@@ -84,6 +84,9 @@ func main() {
 
 }
 ```
+
+Try on [Go Playground](https://play.golang.org/p/xHO6pVuKBad).
+
 ____
 
 ##### Inspired by this great [KDTree implementation](https://github.com/mourner/kdbush) for JavaScript and adapted from this excellent [Go port](https://github.com/MadAppGang/kdbush).
