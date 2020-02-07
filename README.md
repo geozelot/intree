@@ -62,7 +62,7 @@ import (
 
 ## Examples
 
-### Simple `Bounds{}` interface implementation
+#### Simple `Bounds{}` interface implementation:
 
 ```go
 // SimpleBounds is a simple Struct implicitly implementing the Bounds interface.
@@ -80,7 +80,7 @@ func (sb *SimpleBounds) Limits() (float64, float64) {
 }
 ```
 
-### Test Setup
+#### Test Setup:
 
 ```go
 package main
@@ -92,16 +92,14 @@ import (
 
 )
 
+// defining simple Struct holding interval limits
 type SimpleBounds struct {
-
   Lower, Upper float64
-  
 }
 
+  // add method to access limits; implicitly implements INTree.Bounds interface
   func (sb *SimpleBounds) Limits() (float64, float64) {
-
     return sb.Lower, sb.Upper
-
   }
 
 func main() {
