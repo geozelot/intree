@@ -63,7 +63,7 @@ func main() {
   // initialize new INTree and create tree from inputBounds
   tree = intree.NewINTree(inputBounds)
 
-  // parse return Slice with indices refrencing inputBounds
+  // parse return Slice with indices referencing inputBounds
   for _, matchedIndex := range tree.Including(4.3) {
 
     // using INTree.Bounds interface method to access limits
