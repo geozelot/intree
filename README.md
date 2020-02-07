@@ -30,7 +30,7 @@ type Bounds interface {
 ### `type INTree`
 
 `INTree{}` is the main package object; holds Slice of reference indices and the respective interval limits.
-https://play.golang.org/p/rrV_duXi7eh
+
 ```go
 type INTree struct {
     // contains filtered or unexported fields
