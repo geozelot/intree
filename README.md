@@ -27,24 +27,6 @@ type Bounds interface {
 }
 ```
 
-### `type SimpleBounds`
-
-`SimpleBounds{}` is a simple Struct implicitly implementing the Bounds interface.
-
-```go
-type SimpleBounds struct {
-    Lower, Upper float64
-}
-```
-
-#### `func (*SimpleBounds) Limits`
-
-`Limits()` accesses the interval limits. 
-
-```go
-func (sb *SimpleBounds) Limits() (float64, float64)
-```
-
 ### `type INTree`
 
 `INTree{}` is the main package object; holds Slice of reference indices and the respective interval limits.
