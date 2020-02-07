@@ -1,29 +1,73 @@
 # INTree for Go
 
-Static, flat **IN**terval **Tree** implementation for reverse range searches.
+Very fast static, flat **IN**terval **Tree** implementation for reverse range searches.
 
-The flat tree structure using Slices makes traversal very efficient, very fast, and with almost no memory footprint other than the range limits.
+Highly efficient and with almost no memory footprint other than the stored ranges.
 
 Further scientific reading about the adapted algorithm and comparisons between different approaches (in C/C++) can be found [here](https://github.com/lh3/cgranges).
 
 
-## Behaviour:
+# Behaviour
 
 * INTree will build the tree once (**static; no updates after creation**)
 * INTree returns indices to the initial `[]Bounds` array
+* INTree currently supports finding all bounds for a single `float64` value
 
-## Usage:
+# Usage
 
-INTree currently supports finding all bounds for a simple float value.
+## API ([GoDoc](https://godoc.org/github.com/geozelot/intree))
 
-### Import
+### type Bounds
+```go
+type Bounds interface {
+    Limits() (Lower, Upper float64)
+}
 ```
+`Bounds{}` is the main interface expected by `NewINTree()`; requires `Limits()` method to access interval limits.
+
+### type SimpleBounds
+```go
+type SimpleBounds struct {
+    Lower, Upper float64
+}
+```
+`SimpleBounds{}` is a simple Struct implicitly implementing the Bounds interface.
+
+#### func (*SimpleBounds) Limits
+```go
+func (sb *SimpleBounds) Limits() (float64, float64)
+```
+`Limits()` accesses the interval limits. 
+
+
+### type INTree
+```go
+type INTree struct {
+    // contains filtered or unexported fields
+}
+```
+`INTree{}` is the main package object; holds Slice of reference indices and the respective interval limits.
+
+### func NewINTree
+```go
+func NewINTree(bnds []Bounds) *INTree
+```
+`NewINTree()` is the main initialization function; creates the tree from the given Slice of Bounds.
+
+### func (*INTree) Including
+```go
+func (inT *INTree) Including(val float64) []int
+```
+`Including()` is the main entry point for bounds searches; traverses the tree and collects intervals that overlap with the given value.
+
+## Import
+```go
 import (
     "github.com/geozelot/intree"
 )
 ```
 
-### Example usage
+## Example usage
 
 ```go
 package main
