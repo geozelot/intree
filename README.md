@@ -17,48 +17,59 @@ Further scientific reading about the adapted algorithm and comparisons between d
 
 ## API ([GoDoc](https://godoc.org/github.com/geozelot/intree))
 
-### type Bounds
+### `type Bounds`
+
+`Bounds{}` is the main interface expected by `NewINTree()`; requires `Limits()` method to access interval limits.
+
 ```go
 type Bounds interface {
     Limits() (Lower, Upper float64)
 }
 ```
-`Bounds{}` is the main interface expected by `NewINTree()`; requires `Limits()` method to access interval limits.
 
-### type SimpleBounds
+### `type SimpleBounds`
+
+`SimpleBounds{}` is a simple Struct implicitly implementing the Bounds interface.
+
 ```go
 type SimpleBounds struct {
     Lower, Upper float64
 }
 ```
-`SimpleBounds{}` is a simple Struct implicitly implementing the Bounds interface.
 
-#### func (*SimpleBounds) Limits
+#### `func (*SimpleBounds) Limits`
+
+`Limits()` accesses the interval limits. 
+
 ```go
 func (sb *SimpleBounds) Limits() (float64, float64)
 ```
-`Limits()` accesses the interval limits. 
 
+### `type INTree`
 
-### type INTree
+`INTree{}` is the main package object; holds Slice of reference indices and the respective interval limits.
+
 ```go
 type INTree struct {
     // contains filtered or unexported fields
 }
 ```
-`INTree{}` is the main package object; holds Slice of reference indices and the respective interval limits.
 
-### func NewINTree
+### `func NewINTree`
+
+`NewINTree()` is the main initialization function; creates the tree from the given Slice of Bounds.
+
 ```go
 func NewINTree(bnds []Bounds) *INTree
 ```
-`NewINTree()` is the main initialization function; creates the tree from the given Slice of Bounds.
 
-### func (*INTree) Including
+### `func (*INTree) Including`
+
+`Including()` is the main entry point for bounds searches; traverses the tree and collects intervals that overlap with the given value.
+
 ```go
 func (inT *INTree) Including(val float64) []int
 ```
-`Including()` is the main entry point for bounds searches; traverses the tree and collects intervals that overlap with the given value.
 
 ## Import
 ```go
