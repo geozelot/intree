@@ -1,4 +1,4 @@
-// INTree provides a static, flat (augmented) INterval Tree for reverse range searches.
+// INTree provides a very fast, static, flat (augmented) INterval Tree for reverse range searches.
 package intree
 
 import (
@@ -7,9 +7,9 @@ import (
 )
 
 
-// Bounds is the main interface expected by NewINTree();
+// Bounds is the main interface expected by NewINTree(); requires Limits method to access interval limits.
 type Bounds interface {
-	Limits() (L, U float64)
+	Limits() (Lower, Upper float64)
 }
 
 // SimpleBounds is a simple Struct implicitly implementing the Bounds interface.
@@ -17,22 +17,22 @@ type SimpleBounds struct {
 	Lower, Upper float64
 }
 
-// Limits implicitly implements Bounds interface for type SimpleBounds.
+// Limits accesses the interval limits.
 func (sb *SimpleBounds) Limits() (float64, float64) {
 
 	return sb.Lower, sb.Upper
 
 }
 
-// INTree is the main package object.
-// INTree.idxs holds the array indices of the passed Bounds[] Slice at construction with NewINTree().
-// INTree.lmts holds the actual limits and the maximum of all children per node.
+// INTree is the main package object;
+// holds Slice of reference indices and the respective interval limits.
 type INTree struct {
 	idxs []int
 	lmts []float64
 }
 
-// buidTree is the internal tree construction function.
+// buildTree is the internal tree construction function;
+// creates, sorts and augments nodes into Slices.
 func (inT *INTree) buildTree(bnds []Bounds) {
 
 	inT.idxs = make([]int, len(bnds))
@@ -54,8 +54,8 @@ func (inT *INTree) buildTree(bnds []Bounds) {
 
 }
 
-// Including is the main entry point for bounds searches.
-// Traverses the tree and returns overlaps with the given value.
+// Including is the main entry point for bounds searches;
+// traverses the tree and collects intervals that overlap with the given value.
 func (inT *INTree) Including(val float64) []int {
 
 	stk := []int{0, len(inT.idxs) - 1}
