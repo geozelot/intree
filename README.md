@@ -152,7 +152,7 @@ func main() {
 }
 ```
 
-#### Try on [Go Playground](https://play.golang.org/p/rrV_duXi7eh).
+#### Try on [Go Playground](https://play.golang.org/p/RRDavPcgyhx).
 
 ____
 
