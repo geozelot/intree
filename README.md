@@ -110,20 +110,20 @@ func main() {
   // create example bounds
   inputBounds := []intree.Bounds{
 
-    &intree.SimpleBounds{Lower: 4.0, Upper: 6.0},   // match
-    &intree.SimpleBounds{Lower: 5.0, Upper: 7.0},
-    &intree.SimpleBounds{Lower: 4.0, Upper: 8.0},   // match
-    &intree.SimpleBounds{Lower: 1.0, Upper: 3.0},
-    &intree.SimpleBounds{Lower: 7.0, Upper: 9.0},
-    &intree.SimpleBounds{Lower: 3.0, Upper: 6.0},   // match
-    &intree.SimpleBounds{Lower: 2.0, Upper: 3.0},
-    &intree.SimpleBounds{Lower: 5.3, Upper: 7.9},
-    &intree.SimpleBounds{Lower: 3.2, Upper: 7.5},   // match
-    &intree.SimpleBounds{Lower: 4.4, Upper: 5.1},
-    &intree.SimpleBounds{Lower: 4.1, Upper: 4.9},   // match
-    &intree.SimpleBounds{Lower: 4.1, Upper: 4.9},   // match, same interval
-    &intree.SimpleBounds{Lower: 1.3, Upper: 3.1},
-    &intree.SimpleBounds{Lower: 7.9, Upper: 8.9},
+    &SimpleBounds{Lower: 4.0, Upper: 6.0},   // match
+    &SimpleBounds{Lower: 5.0, Upper: 7.0},
+    &SimpleBounds{Lower: 4.0, Upper: 8.0},   // match
+    &SimpleBounds{Lower: 1.0, Upper: 3.0},
+    &SimpleBounds{Lower: 7.0, Upper: 9.0},
+    &SimpleBounds{Lower: 3.0, Upper: 6.0},   // match
+    &SimpleBounds{Lower: 2.0, Upper: 3.0},
+    &SimpleBounds{Lower: 5.3, Upper: 7.9},
+    &SimpleBounds{Lower: 3.2, Upper: 7.5},   // match
+    &SimpleBounds{Lower: 4.4, Upper: 5.1},
+    &SimpleBounds{Lower: 4.1, Upper: 4.9},   // match
+    &SimpleBounds{Lower: 4.1, Upper: 4.9},   // match, same interval
+    &SimpleBounds{Lower: 1.3, Upper: 3.1},
+    &SimpleBounds{Lower: 7.9, Upper: 8.9},
 
   }
 
