@@ -69,16 +69,12 @@ import (
 ```go
 // SimpleBounds is a simple Struct implicitly implementing the Bounds interface.
 type SimpleBounds struct {
-
   Lower, Upper float64
-
 }
 
 // Limits accesses the interval limits.
 func (sb *SimpleBounds) Limits() (float64, float64) {
-
   return sb.Lower, sb.Upper
-
 }
 ```
 
@@ -88,13 +84,11 @@ func (sb *SimpleBounds) Limits() (float64, float64) {
 package main
 
 import (
-
     "github.com/geozelot/intree"
     "fmt"
-
 )
 
-// defining simple Struct holding interval limits
+// define simple Struct holding interval limits
 type SimpleBounds struct {
   Lower, Upper float64
 }
