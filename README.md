@@ -138,7 +138,12 @@ func main() {
     // using INTree.Bounds interface method to access limits
     lowerLimit, upperLimit := inputBounds[matchedIndex].Limits()
 
-    fmt.Printf("Match at inputBounds index %2d with range [%.1f, %.1f]\n", matchedIndex, lowerLimit, upperLimit)
+    fmt.Printf(
+      "Match at inputBounds index %2d with range [%.1f, %.1f]\n",
+      matchedIndex,
+      lowerLimit,
+      upperLimit
+    )
 
     /*
       Match at inputBounds index 11 with range [4.1, 4.9]
