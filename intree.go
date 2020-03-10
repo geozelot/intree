@@ -1,4 +1,4 @@
-// INTree provides a very fast, static, flat (augmented) INterval Tree for reverse range searches.
+// INTree provides a very fast, static, flat, augmented interval tree for reverse range searches.
 package intree
 
 import (
