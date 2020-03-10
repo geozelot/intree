@@ -1,3 +1,5 @@
+[![GoDoc](https://godoc.org/github.com/geozelot/intree?status.svg)](https://godoc.org/github.com/geozelot/intree)
+
 # INTree for Go
 
 Very fast static, flat **IN**terval **Tree** implementation for reverse range searches.
@@ -15,7 +17,7 @@ Further scientific reading about the adapted algorithm and comparisons between d
 
 # Usage
 
-## API ([GoDoc](https://godoc.org/github.com/geozelot/intree))
+## API
 
 ### `type Bounds`
 
