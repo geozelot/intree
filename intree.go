@@ -1,4 +1,4 @@
-// INTree provides a very fast, static, flat, augmented interval tree for reverse range searches.
+// Package intree provides a very fast, static, flat, augmented interval tree for reverse range searches.
 package intree
 
 import (
@@ -6,12 +6,10 @@ import (
 	"math/rand"
 )
 
-
 // Bounds is the main interface expected by NewINTree(); requires Limits method to access interval limits.
 type Bounds interface {
 	Limits() (Lower, Upper float64)
 }
-
 
 // INTree is the main package object;
 // holds Slice of reference indices and the respective interval limits.
@@ -120,7 +118,7 @@ func augment(lmts []float64, idxs []int) {
 
 	}
 
-	r := len(idxs)>>1
+	r := len(idxs) >> 1
 
 	lmts[3*r+2] = max
 
