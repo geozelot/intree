@@ -1,4 +1,4 @@
-[![GoDoc](https://godoc.org/github.com/geozelot/intree?status.svg)](https://godoc.org/github.com/geozelot/intree)
+[![GoDoc](https://godoc.org/github.com/geozelot/intree?status.svg)](https://godoc.org/github.com/geozelot/intree) [![Go Report Card](https://goreportcard.com/badge/github.com/geozelot/intree)](https://goreportcard.com/report/github.com/geozelot/intree)
 
 # INTree for Go
 
