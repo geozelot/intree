@@ -136,7 +136,7 @@ func main() {
       "Match at inputBounds index %2d with range [%.1f, %.1f]\n",
       matchedIndex,
       lowerLimit,
-      upperLimit
+      upperLimit,
     )
 
     /*
